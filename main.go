@@ -4,11 +4,22 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+
+	"github.com/veandco/go-sdl2/sdl"
 )
 
-func main() {
-	fmt.Println("This is the main function of my attempt at a gameboy emulator")
+func main1() {
+	window, err := sdl.CreateWindow("Testing SDL2", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, 800, 600, sdl.WINDOW_SHOWN)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
+	defer window.Destroy()
+
+	sdl.Delay(5000)
+
+	fmt.Println("This is the main function of my attempt at a gameboy emulator")
 	//file, err := os.Open("Tetris (JUE) (V1.1) [!].gb")
 	data, err := os.ReadFile("Tetris (JUE) (V1.1) [!].gb")
 	check(err)
