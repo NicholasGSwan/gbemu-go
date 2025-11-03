@@ -5,19 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/veandco/go-sdl2/sdl"
+	"github.com/NicholasGSwan/gbemu-go/context"
 )
 
 func main() {
-	window, err := sdl.CreateWindow("Testing SDL2", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, 800, 600, sdl.WINDOW_SHOWN)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	defer window.Destroy()
-
-	sdl.Delay(5000)
 
 	fmt.Println("This is the main function of my attempt at a gameboy emulator")
 
@@ -26,7 +17,7 @@ func main() {
 	check(err)
 
 	//cart := context.ParseNewCart(data)
-
+	cart := context.OpenRom("Tetris (JUE) (V1.1) [!].gb")
 	//err = binary.Read(file, binary.LittleEndian, &val)
 	ninLogo := make([]byte, 48)
 	title := make([]byte, 16)
@@ -37,10 +28,14 @@ func main() {
 		title[i] = data[i+0x134]
 	}
 	fmt.Println(hex.EncodeToString(ninLogo))
+	fmt.Println("printing from data directly")
 	fmt.Printf("The title of the rom is: %s \n", string(title))
 	fmt.Printf("The cartridge type is: %v \n", data[0x147])
 	fmt.Printf("The rom size is: %v \n", data[0x148])
 	fmt.Printf("The old licensee code is: %v \n", data[0x14b])
+
+	fmt.Println("Printing from cart directly")
+	context.PrintCartHeader(&cart)
 
 	check(err)
 	// for _, val := range b1 {
